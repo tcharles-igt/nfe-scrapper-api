@@ -9,7 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import com.tcharles.nfescrapper.domain.Record;
+import com.tcharles.nfescrapper.domain.NFErecord;
 import com.tcharles.nfescrapper.dto.ServiceDTO;
 import com.tcharles.nfescrapper.dto.StateDTO;
 
@@ -39,7 +39,7 @@ public class Scrapper {
 	}
 	
 	
-	public Record scrape() {
+	public NFErecord scrape() {
 		
 		Element table = doc.getElementsByClass("tabelaListagemDados").first();
 		Element tbody = table.getElementsByTag("tbody").first();
@@ -58,19 +58,20 @@ public class Scrapper {
 				 services.add(converterToService("Inutilização",lines.get(3)));
 				 services.add(converterToService("Consulta Protocolo",lines.get(4)));
 				 services.add(converterToService("Status Serviço",lines.get(5)));
-				 services.add(converterToService("Consulta Cadastr",lines.get(7)));
+				 services.add(converterToService("Consulta Cadastro",lines.get(7)));
 				 services.add(converterToService("Recepção Evento",lines.get(8)));
 				 
 				 for(ServiceDTO service: services ) {
-					 outages = (service.getStatus() == "off"? outages + 1 : outages);
+					 outages = (service.getStatus() != null && service.getStatus().equals("off")? outages + 1 : outages);
 				 }
 				 
 				 statesObjects.add(new StateDTO(lines.get(0).text(),outages,services));
 			}
 		}
-
 		
-		return new Record(null, new Date() ,statesObjects);
+		NFErecord record = new NFErecord(null, new Date() ,statesObjects);
+		
+		return record;
 		
 	}
 	
@@ -79,12 +80,18 @@ public class Scrapper {
 		String name = serviceName;
 		String status = null;
 		
-		if(td.getElementsByTag("img") != null) {
-			if(td.getElementsByTag("img").attr("src") != "imagens/bola_verde_P.png") {
+		if(!td.getElementsByTag("img").equals("")) {
+			if(td.getElementsByTag("img").attr("src").equals("imagens/bola_verde_P.png")) {
+				status = "on";
+			}
+			else if(
+					td.getElementsByTag("img").attr("src").equals("imagens/bola_amarela_P.png") ||
+					td.getElementsByTag("img").attr("src").equals("imagens/bola_vermelho_P.png")
+					) {
 				status = "off";
 			}
 			else {
-				status = "on";
+				status = null;
 			}
 		}
 		

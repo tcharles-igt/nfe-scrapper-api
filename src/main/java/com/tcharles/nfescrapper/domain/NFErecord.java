@@ -11,8 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.tcharles.nfescrapper.dto.StateDTO;
 
-@Document
-public class Record implements Serializable{
+@Document(collection="record")
+public class NFErecord implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -20,17 +20,17 @@ public class Record implements Serializable{
 	private String id;
 	private Date date;
 	
-	private List<StateDTO> ststes = new ArrayList<>();
+	private List<StateDTO> states = new ArrayList<>();
 	
-	public Record() {
+	public NFErecord() {
 		
 	}
 
-	public Record(String id, Date date, List<StateDTO> ststes) {
+	public NFErecord(String id, Date date, List<StateDTO> ststes) {
 		super();
 		this.id = id;
 		this.date = date;
-		this.ststes = ststes;
+		this.states = ststes;
 	}
 
 	public String getId() {
@@ -49,12 +49,12 @@ public class Record implements Serializable{
 		this.date = date;
 	}
 
-	public List<StateDTO> getStstes() {
-		return ststes;
+	public List<StateDTO> getStates() {
+		return states;
 	}
 
-	public void setStstes(List<StateDTO> ststes) {
-		this.ststes = ststes;
+	public void setStates(List<StateDTO> states) {
+		this.states = states;
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class Record implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Record other = (Record) obj;
+		NFErecord other = (NFErecord) obj;
 		return Objects.equals(id, other.id);
 	}
 }

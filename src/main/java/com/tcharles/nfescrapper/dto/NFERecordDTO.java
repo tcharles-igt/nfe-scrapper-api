@@ -5,25 +5,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.tcharles.nfescrapper.domain.Record;
+import com.tcharles.nfescrapper.domain.NFErecord;
 
-public class RecordDTO implements Serializable {
+public class NFERecordDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String id;
 	private Date date;
 	
-	private List<StateDTO> ststes = new ArrayList<>();
+	private List<StateDTO> states = new ArrayList<>();
 	
-	public RecordDTO() {
+	public NFERecordDTO() {
 		
 	}
 	
-	public RecordDTO(Record obj) {
+	public NFERecordDTO(NFErecord obj) {
 		id = obj.getId();
 		date = obj.getDate();
-		ststes = obj.getStstes();
+		states = obj.getStates();
 	}
 
 	public String getId() {
@@ -42,12 +42,12 @@ public class RecordDTO implements Serializable {
 		this.date = date;
 	}
 
-	public List<StateDTO> getStstes() {
-		return ststes;
+	public List<StateDTO> getStates() {
+		return states;
 	}
 
 	public void setStstes(List<StateDTO> ststes) {
-		this.ststes = ststes;
+		this.states = ststes;
 	}
 	
 	
